@@ -308,5 +308,7 @@ import { withKnobs, object } from '@storybook/addon-knobs/react';
 
 storiesOf('Task', module)
   .addDecorator(withKnobs)
-  .add(/*...*/);
+  .add('default', () => {
+    return <Task task={object('task', { ...task })} {...actions} />;
+  })
 ```
