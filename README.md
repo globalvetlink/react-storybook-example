@@ -26,7 +26,7 @@ Add some styling from this
 
 Create the initial component. It takes in a simple function with props and actions. It should return basic HTML for this example.
 
-```
+```JavaScript
 // src/components/Task.js
 
 import React from 'react';
@@ -44,7 +44,7 @@ Now we can create a few stories for this component. Start with importing the com
 
 Using `storiesOf`, we can create 3 different implementations of the same component.
 
-```
+```JavaScript
 // src/components/Task.stories.js
 
 import React from 'react';
@@ -73,7 +73,7 @@ storiesOf('Task', module)
 
 Looks great! But, we can't see the component in storybook yet. We need to update some settings for Storbook first.
 
-```
+```JavaScript
 import { configure } from '@storybook/react';
 import '../src/index.css';
 
@@ -88,7 +88,7 @@ configure(loadStories, module);
 
 Now we should be able to see our first items displayed! The do not currently look different, but that will change once we build out the states.
 
-```
+```JavaScript
 // src/components/Task.js
 
 import React from 'react';
@@ -127,7 +127,7 @@ The last thing we need to do is specify some data requirements. This makes devel
 
 Add TaskList & TaskList stories to components folder to bring together all the individual items.
 
-```
+```JavaScript
 // src/components/TaskList.js
 
 import React from 'react';
@@ -160,7 +160,7 @@ function TaskList({ loading, tasks, onPinTask, onArchiveTask }) {
 export default TaskList;
 ```
 
-```
+```JavaScript
 // src/components/TaskList.stories.js
 
 import React from 'react';
@@ -195,73 +195,73 @@ The `addDecorator` call allows us to nest the component in HTML. In this case, i
 
 Just like we did with the individual tasks, we can create different dynamic states for the task list.
 
-```
-	// src/components/TaskList.js
+```JavaScript
+// src/components/TaskList.js
 
-	import React from 'react';
+import React from 'react';
 
-	import Task from './Task';
+import Task from './Task';
 
-	function TaskList({ loading, tasks, onPinTask, onArchiveTask }) {
-		const events = {
-			onPinTask,
-			onArchiveTask,
-		};
+function TaskList({ loading, tasks, onPinTask, onArchiveTask }) {
+	const events = {
+		onPinTask,
+		onArchiveTask,
+	};
 
-		const LoadingRow = (
-			<div className="loading-item">
-				<span className="glow-checkbox" />
-				<span className="glow-text">
-					<span>Loading</span> <span>cool</span> <span>state</span>
-				</span>
-			</div>
-		);
+	const LoadingRow = (
+		<div className="loading-item">
+			<span className="glow-checkbox" />
+			<span className="glow-text">
+				<span>Loading</span> <span>cool</span> <span>state</span>
+			</span>
+		</div>
+	);
 
-		if (loading) {
-			return (
-				<div className="list-items">
-					{LoadingRow}
-					{LoadingRow}
-					{LoadingRow}
-					{LoadingRow}
-					{LoadingRow}
-					{LoadingRow}
-				</div>
-			);
-		}
-
-		if (tasks.length === 0) {
-			return (
-				<div className="list-items">
-					<div className="wrapper-message">
-						<span className="icon-check" />
-						<div className="title-message">You have no tasks</div>
-						<div className="subtitle-message">Sit back and relax</div>
-					</div>
-				</div>
-			);
-		}
-
-		const tasksInOrder = [
-			...tasks.filter(t => t.state === 'TASK_PINNED'),
-			...tasks.filter(t => t.state !== 'TASK_PINNED'),
-		];
-
+	if (loading) {
 		return (
 			<div className="list-items">
-				{tasksInOrder.map(task => (
-					<Task key={task.id} task={task} {...events} />
-				))}
+				{LoadingRow}
+				{LoadingRow}
+				{LoadingRow}
+				{LoadingRow}
+				{LoadingRow}
+				{LoadingRow}
 			</div>
 		);
 	}
 
-	export default TaskList;
+	if (tasks.length === 0) {
+		return (
+			<div className="list-items">
+				<div className="wrapper-message">
+					<span className="icon-check" />
+					<div className="title-message">You have no tasks</div>
+					<div className="subtitle-message">Sit back and relax</div>
+				</div>
+			</div>
+		);
+	}
+
+	const tasksInOrder = [
+		...tasks.filter(t => t.state === 'TASK_PINNED'),
+		...tasks.filter(t => t.state !== 'TASK_PINNED'),
+	];
+
+	return (
+		<div className="list-items">
+			{tasksInOrder.map(task => (
+				<Task key={task.id} task={task} {...events} />
+			))}
+		</div>
+	);
+}
+
+export default TaskList;
 ```
 
 And just like we did with the tasks, we can setup propTypes to ensure the data is standardized.
 
-```
+```JavaScript
 // src/components/TaskList.js
 
 TaskList.propTypes = {
@@ -284,7 +284,7 @@ Let's utilize an awesome feature of Storybook, Addons!
 
 `yarn add @storybook/addon-knobs`
 
-```
+```JavaScript
 // .storybook/addons.js
 
 import '@storybook/addon-actions/register';
@@ -294,7 +294,7 @@ import '@storybook/addon-links/register';
 
 Now that we have the knobs addon, let's use it!
 
-```
+```JavaScript
 // src/components/Task.stories.js
 
 import React from 'react';
@@ -303,7 +303,7 @@ import { action } from '@storybook/addon-actions';
 import { withKnobs, object } from '@storybook/addon-knobs/react';
 ```
 
-```
+```JavaScript
 // src/components/Task.stories.js
 
 storiesOf('Task', module)
